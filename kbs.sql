@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 25 Jun 2018 pada 05.24
+-- Generation Time: 25 Jun 2018 pada 13.55
 -- Versi Server: 10.1.29-MariaDB
 -- PHP Version: 7.2.0
 
@@ -179,7 +179,8 @@ INSERT INTO `m_menu` (`ID_MENU`, `ID_PARENT`, `NAMA_MENU`, `JUDUL_MENU`, `LINK_M
 (15, 13, 'Konfirmasi Pembayaran', 'Konfirmasi Pembayaran', 'konfirmasi', NULL, 'Y', 2, 2, 'N', 'N', 'N'),
 (16, 13, 'Pengambilan Kartu Online', 'Pengambilan Kartu untuk Transaksi Online', 'ambil_kartu', NULL, 'Y', 2, 3, 'N', 'N', 'N'),
 (17, 2, 'Customer', 'Customer', 'customer', NULL, 'Y', 2, 1, 'N', 'Y', 'N'),
-(18, 0, 'Tiket Masuk', 'Tiket Masuk', 'tiket_masuk', 'ticket', 'Y', 1, 4, 'Y', 'N', 'N');
+(18, 0, 'Tiket Masuk', 'Tiket Masuk', 'tiket_masuk', 'ticket', 'Y', 1, 4, 'Y', 'N', 'N'),
+(19, 0, 'Loket Pengembalian Kartu', 'Loket Pengembalian Kartu', 'kembali_kartu', 'card', 'Y', 1, 6, 'N', 'N', 'N');
 
 -- --------------------------------------------------------
 
@@ -226,22 +227,23 @@ CREATE TABLE `t_hak_akses` (
 --
 
 INSERT INTO `t_hak_akses` (`ID_MENU`, `ID_KATEGORI_USER`, `ADD_BUTTON`, `EDIT_BUTTON`, `DELETE_BUTTON`) VALUES
+(18, 1, 'Y', '', ''),
 (16, 1, '', '', ''),
 (15, 1, '', '', ''),
 (14, 1, 'Y', '', ''),
 (13, 1, '', '', ''),
 (7, 1, 'Y', 'Y', 'Y'),
 (6, 1, 'Y', 'Y', 'Y'),
-(4, 1, 'Y', 'Y', 'Y'),
 (12, 2, '', '', ''),
+(4, 1, 'Y', 'Y', 'Y'),
 (17, 1, '', 'Y', ''),
 (2, 1, '', '', ''),
 (3, 1, 'Y', 'Y', 'Y'),
 (5, 1, 'Y', 'Y', 'Y'),
 (1, 1, '', '', ''),
 (12, 1, '', '', ''),
-(18, 1, 'Y', '', ''),
-(18, 2, '', '', '');
+(18, 2, '', '', ''),
+(19, 1, '', '', '');
 
 -- --------------------------------------------------------
 
@@ -381,7 +383,7 @@ ALTER TABLE `m_kartu`
 -- AUTO_INCREMENT for table `m_menu`
 --
 ALTER TABLE `m_menu`
-  MODIFY `ID_MENU` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `ID_MENU` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `t_detail_order`

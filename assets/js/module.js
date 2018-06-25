@@ -330,3 +330,34 @@ function konfirmasi_pembayaran_online(id_order,keterangan){
 }
 
 
+
+// Standard Form
+$('#form_kartu_kembali').validate({
+	submitHandler: function(form) {	
+		
+		$.ajax({
+			url: base_url+''+uri_1+'/'+uri_2+'_data',
+			type:'POST',
+			dataType:'html',
+			data: $('#form_kartu_kembali').serialize(),
+			beforeSend: function(){	
+				$('#loading').show();
+				$('#pesan_error').hide();
+			},
+			success: function(data){
+				if( data == 'error' ){	
+					
+				}
+				else{				
+					$('#loading').hide();					 
+					$('#pesan_error').show(); $('#pesan_error').html(data.pesan);					 
+					$('#pesanTiketMasuk').html(data);		 
+				}
+			},
+			error : function(data) {
+				$('#pesan_error').html('maaf telah terjadi kesalahan dalam program, silahkan anda mengakses halaman lainnya.'); $('#pesan_error').show(); $('#loading').hide();
+				//$('#pesan_error').html( '<h3>Error Response : </h3><br>'+JSON.stringify( data ));
+			}
+		})
+	}
+});

@@ -12,68 +12,94 @@ class Kembali_kartu extends CI_Controller {
 	} 
 
 	public function index(){		
-		$like 		= null;
-		$order_by 	= 't_order.ID_T_ORDER desc'; 
-		$urlSearch 	= null;
-		$where		=	"t_order.id_customer!='1' and t_order.status_bayar='Lunas' and t_order.id_kartu is null";
-		
-		if($this->input->get('field')){
-			$like = array($_GET['field'] => $_GET['keyword']);
-			$urlSearch = "?field=".$_GET['field']."&keyword=".$_GET['keyword'];
-		}		
-		
-		$this->load->library('pagination');	
-		
-		$config['base_url'] 	= base_url().''.$this->uri->segment(1).'/index'.$urlSearch;
-		$this->jumlahData 		= $this->order_model->getCount($where,$like);		
-		$config['total_rows'] 	= $this->jumlahData;		
-		$config['per_page'] 	= 10;		
-		
-		$this->pagination->initialize($config);	
-		$this->showData = $this->order_model->showData($where,$like,$order_by,$config['per_page'],$this->input->get('per_page'));
-		$this->pagination->initialize($config);
-		
-		$this->template_view->load_view('ambil_kartu/ambil_kartu_view');
+		redirect("kembali_kartu/add");
 	}
 	
-
-	public function ambil_tiket(){		
+	public function add(){		
+		$this->template_view->load_view('kembali_kartu/kembali_kartu_view');
+	}
+	public function add_data(){		
+		$where		=	array('NOMOR_RFID' =>	$this->input->post('NOMOR_RFID'));
+		$dataCek 	=	$this->kartu_model->getData($where);
+		//$dataCek	=	$queryCek->row();
 		
-		$where = array('nomor_rfid' => $this->input->post('nomor_rfid'));
-		$this->dataKartu = $this->kartu_model->getData($where);
-		//var_dump($this->db->last_query());
-		if($this->dataKartu){
+		if($dataCek){
+			$whereOrder		=	"ID_KARTU  = '".$dataCek->ID_KARTU."' and status_bayar='Lunas' and tgl_kartu_kembali is null ";
+			$dataCekOrder 	=	$this->order_model->getData($whereOrder);
 			
-			$cek	=	$this->db->query("
-			select t_order.id_kartu from m_kartu,t_order where
-				m_kartu.id_kartu=t_order.id_kartu and
-				m_kartu.nomor_rfid = '".$this->input->post('nomor_rfid')."' and 
-				t_order.tgl_kartu_kembali is null
-			");
-			$dataCek = $cek->row();
-			
-			if($dataCek){
+			if($dataCekOrder){
 				
-				$status = array('status' => false , 'pesan' => 'Kartu sedang Digunakan !');
+				$this->load->library('rupiah');
+				
+				$where		=	array('ID_T_ORDER' =>	$dataCekOrder->ID_T_ORDER );
+				$dataCek 	=	$this->order_model->showDataDetail($where);
+				
+				echo " 
+				<table class='table table-bordered'>
+					<thead>
+					  <tr>
+						<th width='15%'>No.</th>
+						<th></th>
+					  </tr>
+					</thead>
+					
+					<tbody>";
+					$i=1;
+					foreach($dataCek  as $data){
+						//var_dump($data);
+						
+						echo "<tr>
+						<td>".$i."</td>
+						<td>".$data->NAMA_BARANG."</td>
+						<td>".$data->QTY_BARANG."</td>
+						<td>".$this->rupiah->to_rupiah($data->HARGA)."</td>
+						<td>".$this->rupiah->to_rupiah($data->TOTAL_HARGA)."</td>
+						
+						
+						</tr>";
+					$i++;
+					}
+					
+				echo "
+					</tbody>
+				</table>
+				";
+			}	
+			else{
+				echo 'Kartu Tidak Aktif !';
+			}
+		}
+		else{
+			
+			echo 'Kartu Tidak Aktif !';
+		}
+		
+	}
+	
+	public function ssadd_data(){		
+		$where		=	array('NOMOR_RFID' =>	$this->input->post('NOMOR_RFID'));
+		$dataCek 	=	$this->kartu_model->getData($where);
+		//$dataCek	=	$queryCek->row();
+		
+		if($dataCek){
+			$whereOrder		=	"ID_KARTU  = '".$dataCek->ID_KARTU."' and status_bayar='Lunas' and tgl_kartu_kembali is null ";
+			$dataCekOrder 	=	$this->order_model->getData($whereOrder);
+			
+			if($dataCekOrder){
+				$this->db->query("update t_order set tgl_kartu_kembali=now() where id_t_order = '".$dataCekOrder
+				."'");
+				
+				$status = array('status' => true );
 			}
 			else{
-				$cek	=	$this->db->query("
-				update t_order set STATUS_BAYAR='Lunas' , id_kartu = '".$this->dataKartu->ID_KARTU."' where id_t_order='".$this->input->post('id_order_ambil_kartu')."'
-				");
-				$status = array('status' => true);
+				$status = array('status' => false , 'pesan' => 'Kartu sudah dikembalikan !' );
 			}
-			
-			//echo $this->db->last_query();
 		}
-		else{			
-			$status = array('status' => false , 'pesan' => 'Kartu tidak Terdaftar !');
+		else{
+			
+			$status = array('status' => false , 'pesan' => 'Kartu Tidak Aktif !' );
 		}
 		
 		echo(json_encode($status));
-		
-		
-		//redirect("trans_tiket");
 	}
-	
-
 }
