@@ -1,5 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
+/// adi
 class Ambil_kartu extends CI_Controller {
 		
 	public function __construct() {
