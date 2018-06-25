@@ -10,14 +10,19 @@
 					<hr>			
 				</div>
 				<div class="box-body">
+					
 					<form class="form-horizontal" id="form_standar">
+					<?php
+					
+					if($this->statusBayar == 'Belum Bayar'){
+					?>
 						<input type="hidden" value="1" class="form-control number" name="ID_CUSTOMER" id="ID_CUSTOMER" >
 						<input type="hidden" value="<?php echo $this->input->get('id_order');?>" class="form-control number" name="ID_ORDER" id="ID_ORDER" >
 					
 						<div class="form-group">
-							<label class="control-label col-sm-2" for="email">Nama Barang :</label>
+							<label class="control-label col-sm-2" for="email">Jenis Tiket :</label>
 							<div class="col-sm-6">
-								<select class="form-control required" name="ID_BARANG" >
+								<select class="form-control required" name="ID_BARANG" id="ID_BARANG" onchange="beliUang(this.value)">
 									<option value="" >Silahkan Pilih</option>
 									<?php
 									foreach($this->dataBarang as $data){
@@ -29,21 +34,11 @@
 									?>
 								</select>
 							</div>
-							<?php
-							if($this->input->get('id_order')){
-								if($this->dataOrder->ID_KARTU == ''){
-							?>
-							<div class="col-sm-4">
-								<span onclick="ambil_kartu('<?php echo $this->input->get('id_order'); ?>')" class="btn btn-success btn"><i class="fa fa-credit-card"></i> Ambil Kartu</span>
-							</div>
-							<?php
-								}
-							}
-							?>
+							
 						</div>
 						<div class="form-group">
-							<label class="control-label col-sm-2" for="email">Jumlah :</label>
-							<div class="col-sm-1">
+							<label class="control-label col-sm-2" for="email" id='divJumlah'>Jumlah :</label>
+							<div class="col-sm-2">
 								<input type="input" class="form-control required number" name="QTY_BARANG" id="QTY_BARANG" >
 							</div>
 							</div>
@@ -56,14 +51,45 @@
 						</div>			
 						<div class="form-group">        
 							<div class="col-sm-offset-2 col-sm-10">
-								<button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan</button>
+								<button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> <?php if($this->input->get('id_order')) echo "Tambah Data";  else echo "Simpan";?></button>
 								<a href="<?=base_url()."".$this->uri->segment(1);?>">
 									<span class="btn btn-warning"><i class="fa fa-remove"></i> Batal</span>
 								</a>
 							</div>
 						</div>
+					
+					<?php
+					}
+					else{
+					?>
+						<div class="form-group">        
+							<div class=" col-sm-10">
+								<a href="<?=base_url()."".$this->uri->segment(1);?>">
+									<span class="btn btn-warning"><i class="fa fa-remove"></i> Kembali</span>
+								</a>
+							</div>
+						</div>
+					<?php
+					}
+					?>
+					</form>
+					<form class="form-horizontal" >
+					<?php
+					if($this->input->get('id_order')){
+						if($this->dataOrder->ID_KARTU == ''){
+					?>
+					<div class="form-group">   
+					<div class="col-sm-offset-2 col-sm-10">
+						<span onclick="ambil_kartu('<?php echo $this->input->get('id_order'); ?>')" class="btn btn-success btn"><i class="fa fa-credit-card"></i> Ambil Kartu</span>
+					</div>
+					</div>
+					<?php
+						}
+					}
+					?>
 					</form>
 					<?php
+					
 					if($this->input->get('id_order')){
 					?>
 					

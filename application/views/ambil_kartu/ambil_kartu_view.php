@@ -148,7 +148,7 @@
 		<div class="modal-body">					
 			<form class="form-horizontal" id="form_ambil_kartu">						
 				<div class="form-group">
-					<label class="control-label col-sm-4" >Username :</label>
+					<label class="control-label col-sm-4" >Kartu RFID :</label>
 					<div class="col-sm-5">
 						<input type="hidden" class="form-control " required name="id_order_ambil_kartu" id="id_order_ambil_kartu">
 						<input type="input" class="form-control " required name="nomor_rfid" id="nomor_rfid">

@@ -37,7 +37,7 @@ class Trans_tiket extends CI_Controller {
 	public function add(){
 		$order_by 	= 'NAMA_BARANG';
 		$this->dataBarang = $this->barang_model->showData('','',$order_by);
-		
+		$this->statusBayar = 'Belum Bayar' ;
 		if($this->input->get('id_order')){
 			
 			$this->load->library('rupiah');
@@ -48,6 +48,8 @@ class Trans_tiket extends CI_Controller {
 			
 			$where = array('id_t_order' => $this->input->get('id_order'));
 			$this->dataOrder = $this->order_model->getData($where);
+			
+			$this->statusBayar = $this->dataOrder->STATUS_BAYAR;
 			//echo $this->db->last_query();
 			//echo $this->rupiah->to_rupiah('123131');
 		}		

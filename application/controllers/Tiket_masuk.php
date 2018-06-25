@@ -18,10 +18,10 @@ class Tiket_masuk extends CI_Controller {
 	
 		if($_SESSION['id_kategori_karyawan']=='1'){
 			
-			$whereBarang ="1=1";
+			$whereBarang ="1=1 and id_barang!='1'";
 		}
 		else{
-			$whereBarang ="id_barang = '".$_SESSION['id_barang']."' ";
+			$whereBarang ="id_barang = '".$_SESSION['id_barang']."' and id_barang!='1'";
 		}
 		$orderBarang ="nama_barang";		
 		
@@ -32,6 +32,85 @@ class Tiket_masuk extends CI_Controller {
 	}
 	
 
+	public function pakai_kartu_dengan_uang($id_order,$id_barang){
+		$whereBarang = array('ID_BARANG' => $id_barang);
+		$dataBarang	 = $this->barang_model->getData($whereBarang);
+		
+		$queryJumlahTransUang =	$this->db->query("
+			select 
+				TOTAL_HARGA , ID_DETAIL_ORDER
+			from 
+				t_detail_order 
+			where 
+				ID_T_ORDER='".$id_order."'  and 
+				id_barang = '1'
+			");
+			$dataJumlahTransUang = $queryJumlahTransUang->row();
+			
+			if($dataJumlahTransUang){
+				
+				
+			
+			
+				if($dataJumlahTransUang){							
+					$jumlahUang = $dataJumlahTransUang->TOTAL_HARGA;
+				}
+				else{
+					$jumlahUang =	0;
+				}
+				
+				
+				//var_dump($dataJumlahTransUang);
+				
+				$queryJumlahTransPakaiUang =	$this->db->query("
+				select 
+					sum(HARGA) As HARGA 
+				from 
+					t_pakai_kartu 
+				where 
+					ID_T_ORDER='".$id_order."'  and 
+					ID_DETAIL_ORDER = '".$dataJumlahTransUang->ID_DETAIL_ORDER."'
+				");
+				$dataJumlahTransPakaiUang = $queryJumlahTransPakaiUang->row();
+				if($dataJumlahTransPakaiUang->HARGA){							
+					$jumlahUangDIpakai = $dataJumlahTransPakaiUang->HARGA;
+				}
+				else{
+					$jumlahUangDIpakai =	0;
+				}
+				
+				
+				$jumlahSaldoUangSekarang = $jumlahUang - $jumlahUangDIpakai;
+				//var_dump($jumlahUangDIpakai);
+				if( $jumlahSaldoUangSekarang >= $dataBarang->HARGA ){
+					$this->db->query("
+					insert into t_pakai_kartu 
+					(
+						ID_BARANG,
+						ID_DETAIL_ORDER,
+						ID_T_ORDER,
+						HARGA
+					)
+					values
+					(
+						'".$this->input->post('ID_BARANG')."',
+						'".$dataJumlahTransUang->ID_DETAIL_ORDER."',
+						'".$id_order."',
+						'".$dataBarang->HARGA."'					
+					)
+					");
+					
+					echo '<div class="alert alert-success" role="alert"><h4>Sukses menggunakan Saldo Uang !</div>';
+				}
+				else{
+					echo '<div class="alert alert-danger" role="alert"><h4>Saldo tidak mencukupi !</div>';
+				}
+			}
+			else{
+				echo '<div class="alert alert-danger" role="alert"><h4>Saldo tidak mencukupi !</div>';
+			}
+	}
+	
 	public function add_data(){
 		$this->form_validation->set_rules('ID_BARANG', '', 'trim|required');		
 		$this->form_validation->set_rules('NOMOR_RFID', '', 'trim|required');		
@@ -65,117 +144,52 @@ class Tiket_masuk extends CI_Controller {
 					$dataJumlahDetail = $queryJumlahDetail->row();
 					//var_dump($dataJumlahDetail);
 					
-					
-					$queryJumlahTransDetail =	$this->db->query("
-					select 
-						count(*) as JUMLAH 
-					from 
-						t_pakai_kartu 
-					where 
-						ID_DETAIL_ORDER='".$dataJumlahDetail->ID_DETAIL_ORDER."' and 
-						id_barang='".$this->input->post('ID_BARANG')."'
-					");
-					$dataJumlahTransDetail = $queryJumlahTransDetail->row();
-					
-					//var_dump($dataJumlahTransDetail->JUMLAH);
-					//var_dump($dataJumlahDetail->QTY_BARANG);
-					
-					
-					//// jika masih ada kuota sesuai barang
-					if($dataJumlahTransDetail->JUMLAH < $dataJumlahDetail->QTY_BARANG){
-						$this->db->query("
-						insert into t_pakai_kartu 
-						(
-							ID_BARANG,
-							ID_DETAIL_ORDER,
-							ID_T_ORDER,
-							HARGA
-						)
-						values
-						(
-							'".$this->input->post('ID_BARANG')."',
-							'".$dataJumlahDetail->ID_DETAIL_ORDER."',
-							'".$dataKartuOrder->ID_T_ORDER."',
-							'".$dataBarang->HARGA."'					
-						)
-						");
-						
-						echo '<div class="alert alert-success" role="alert"><h4>Sukses menggunakan Kuota Tiket !</div>';
-					}
-					else{
-						$queryJumlahTransUang =	$this->db->query("
+					if($dataJumlahDetail){
+						$queryJumlahTransDetail =	$this->db->query("
 						select 
-							TOTAL_HARGA , ID_DETAIL_ORDER
+							count(*) as JUMLAH 
 						from 
-							t_detail_order 
+							t_pakai_kartu 
 						where 
-							ID_T_ORDER='".$dataKartuOrder->ID_T_ORDER."'  and 
-							id_barang = '1'
+							ID_DETAIL_ORDER='".$dataJumlahDetail->ID_DETAIL_ORDER."' and 
+							id_barang='".$this->input->post('ID_BARANG')."'
 						");
-						$dataJumlahTransUang = $queryJumlahTransUang->row();
+						$dataJumlahTransDetail = $queryJumlahTransDetail->row();
 						
-						if($dataJumlahTransUang){
-							
-							
-						
-						
-							if($dataJumlahTransUang){							
-								$jumlahUang = $dataJumlahTransUang->TOTAL_HARGA;
-							}
-							else{
-								$jumlahUang =	0;
-							}
-							
-							
-							//var_dump($dataJumlahTransUang);
-							
-							$queryJumlahTransPakaiUang =	$this->db->query("
-							select 
-								sum(HARGA) As HARGA 
-							from 
-								t_pakai_kartu 
-							where 
-								ID_T_ORDER='".$dataKartuOrder->ID_T_ORDER."'  and 
-								ID_DETAIL_ORDER = '".$dataJumlahTransUang->ID_DETAIL_ORDER."'
+						//var_dump($dataJumlahTransDetail->JUMLAH);
+						//var_dump($dataJumlahDetail->QTY_BARANG);
+					
+					
+						//// jika masih ada kuota sesuai barang
+						if($dataJumlahTransDetail->JUMLAH < $dataJumlahDetail->QTY_BARANG){
+							$this->db->query("
+							insert into t_pakai_kartu 
+							(
+								ID_BARANG,
+								ID_DETAIL_ORDER,
+								ID_T_ORDER,
+								HARGA
+							)
+							values
+							(
+								'".$this->input->post('ID_BARANG')."',
+								'".$dataJumlahDetail->ID_DETAIL_ORDER."',
+								'".$dataKartuOrder->ID_T_ORDER."',
+								'".$dataBarang->HARGA."'					
+							)
 							");
-							$dataJumlahTransPakaiUang = $queryJumlahTransPakaiUang->row();
-							if($dataJumlahTransPakaiUang->HARGA){							
-								$jumlahUangDIpakai = $dataJumlahTransPakaiUang->HARGA;
-							}
-							else{
-								$jumlahUangDIpakai =	0;
-							}
 							
-							
-							$jumlahSaldoUangSekarang = $jumlahUang - $jumlahUangDIpakai;
-							//var_dump($jumlahUangDIpakai);
-							if( $jumlahSaldoUangSekarang >= $dataBarang->HARGA ){
-								$this->db->query("
-								insert into t_pakai_kartu 
-								(
-									ID_BARANG,
-									ID_DETAIL_ORDER,
-									ID_T_ORDER,
-									HARGA
-								)
-								values
-								(
-									'".$this->input->post('ID_BARANG')."',
-									'".$dataJumlahTransUang->ID_DETAIL_ORDER."',
-									'".$dataKartuOrder->ID_T_ORDER."',
-									'".$dataBarang->HARGA."'					
-								)
-								");
-								
-								echo '<div class="alert alert-success" role="alert"><h4>Sukses menggunakan Saldo Uang !</div>';
-							}
-							else{
-								echo '<div class="alert alert-danger" role="alert"><h4>Saldo tidak mencukupi !</div>';
-							}
+							echo '<div class="alert alert-success" role="alert"><h4>Sukses menggunakan Kuota Tiket !</div>';
 						}
 						else{
-							echo '<div class="alert alert-danger" role="alert"><h4>Saldo tidak mencukupi !</div>';
+							
+							$this->pakai_kartu_dengan_uang($dataKartuOrder->ID_T_ORDER,$this->input->post('ID_BARANG'));
 						}
+					}
+					
+					else{
+						
+						$this->pakai_kartu_dengan_uang($dataKartuOrder->ID_T_ORDER,$this->input->post('ID_BARANG'));
 						
 					}
 				

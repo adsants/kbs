@@ -10,31 +10,38 @@
 					<hr>			
 				</div>
 				<div class="box-body">
-					<form class="form-horizontal" id="form_kartu_kembali">					
+					<form class="form-horizontal" id="" method="get">					
 						
 						<div class="form-group">
-							<label class="control-label col-sm-2" for="email">Kartu RFID :</label>
-							<div class="col-sm-3">
-								<input type="input" class="form-control required number" name="NOMOR_RFID" id="NOMOR_RFID" autofocus>								
-								<input type="hidden" name="UANG_KEMBALI" id="UANG_KEMBALI">
+							<label class="control-label col-sm-2" for="email">Tanggal :</label>
+							<div class="col-sm-2">
+								<input type="input" class="form-control "  id="datepicker"  data-date-format='yyyy-mm-dd' required name="mulai" value="<?=$this->input->get('mulai');?>">								
 							</div>
-							
-							<div class="col-sm-7">
-								<span class="btn btn-success" onclick="showModalTerimaKartu()" id="btnTerimaKartu" style="display:none"> Terima Kartu</span>
-							</div>						
-						</div>						
-						<div class="form-group">
-							<div class="col-sm-offset-2 col-sm-10">
-								<img src="<?php echo base_url();?>assets/img/loading.gif" id="loading" style="display:none">
-								<p id="pesan_error" style="display:none" class="text-warning" style="display:none"></p>
+							<label class="control-label col-sm-1" for="email">s/d</label>
+							<div class="col-sm-2">
+								<input type="input" class="form-control  "  id="datepicker2"  data-date-format='yyyy-mm-dd' required name="akhir" value="<?=$this->input->get('akhir');?>">								
 							</div>
-						</div>			
+												
+						</div>	
 						<div class="form-group">        
-							<div class="col-sm-offset-2 col-sm-10" id="pesanTiketMasuk">
-								
+							<div class="col-sm-offset-2 col-sm-10">
+								<button type="submit" class="btn btn-primary"><i class="fa fa-eye"></i> Lihat Laporan</button>
+								<a href="<?=base_url()."".$this->uri->segment(1);?>">
+									<span class="btn btn-warning"><i class="fa fa-remove"></i> Batal</span>
+								</a>
 							</div>
 						</div>
 					</form>
+					
+					<?php
+					if($this->input->get('mulai')){
+					?>
+					<hr>
+					
+					<?php
+					echo $this->tableLaporan;
+					}
+					?>
 					
 				</div>
 			</div>

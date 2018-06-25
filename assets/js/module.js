@@ -349,6 +349,33 @@ $('#form_kartu_kembali').validate({
 					
 				}
 				else{				
+				
+				
+					$.ajax({
+						url: base_url+'kembali_kartu/uang_kembali',
+						type:'POST',
+						dataType:'json',
+						data: $('#form_kartu_kembali').serialize(),
+						beforeSend: function(){	
+							$('#loading').show();
+							$('#pesan_error').hide();
+						},
+						success: function(data){
+							
+							
+							if( data.status ){
+								$('#UANG_KEMBALI').val(data.uang_kembali);
+								
+								$('#btnTerimaKartu').show();
+								$('#divUangKembali').html("<h3>" + toRp(data.uang_kembali) + "</h3>");
+							}
+							else{
+								
+								$('#btnTerimaKartu').hide();
+							}
+						}
+					});
+					
 					$('#loading').hide();					 
 					$('#pesan_error').show(); $('#pesan_error').html(data.pesan);					 
 					$('#pesanTiketMasuk').html(data);		 
@@ -361,3 +388,40 @@ $('#form_kartu_kembali').validate({
 		})
 	}
 });
+
+function beliUang(id_barang){
+	if(id_barang==1){
+		$('#divJumlah').html('Jumlah Uang');
+		$( "#QTY_BARANG" ).rules( "add", {
+			min: 50000
+		});
+	}
+	else{
+		$('#divJumlah').html('Jumlah Qty');
+		$( "#QTY_BARANG" ).rules( "add", {
+			min: 1
+		});
+	}
+	$('#QTY_BARANG').focus();
+}
+
+function showModalTerimaKartu(){
+	$('#modal_terima_kartu').modal('show');
+}
+
+function terima_kartu(){
+		$.ajax({
+			url: base_url+'kembali_kartu/kartu_kembali',
+			type:'POST',
+			dataType:'json',
+			data: {NOMOR_RFID : $('#NOMOR_RFID').val() },
+			beforeSend: function(){	
+				$('#loading').show();
+				$('#pesan_error').hide();
+			},
+			success: function(data){
+				
+				location.reload();
+			}
+		});
+}
