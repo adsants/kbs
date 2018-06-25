@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 22 Jun 2018 pada 10.58
+-- Generation Time: 25 Jun 2018 pada 05.24
 -- Versi Server: 10.1.29-MariaDB
 -- PHP Version: 7.2.0
 
@@ -67,7 +67,9 @@ CREATE TABLE `m_customer` (
 --
 
 INSERT INTO `m_customer` (`ID_CUSTOMER`, `NAMA_CUSTOMER`, `ALAMAT_CUSTOMER`, `EMAIL_CUSTOMER`, `HP_CUSTOMER`, `PASSWORD`, `AKTIF`) VALUES
-(1, 'Customer Offline', '-', '-', '-', 'ojodibuka', 'Aktif');
+(1, 'Customer Offline', '-', '-', '-', 'ojodibuka', 'Aktif'),
+(2, 'Customer Online', 'jl Jalan', 'mail.adisantoso@gmail.com', '082229149292', '12345', ''),
+(3, 'Anisa', 'Bratang', 'anisamfth@gmail.com', '0897741268', '12345', '');
 
 -- --------------------------------------------------------
 
@@ -200,12 +202,10 @@ CREATE TABLE `t_detail_order` (
 --
 
 INSERT INTO `t_detail_order` (`ID_DETAIL_ORDER`, `ID_T_ORDER`, `ID_BARANG`, `QTY_BARANG`, `HARGA`, `TOTAL_HARGA`, `TGL_DETAIL_ORDER`) VALUES
-(1, 1, 1, 1, 15000, 15000, '2018-06-19 17:44:46'),
-(2, 1, 2, 2, 15000, 30000, '2018-06-19 17:57:38'),
-(3, 1, 3, 3, 25000, 75000, '2018-06-19 17:57:46'),
-(4, 2, 2, 2, 15000, 30000, '2018-06-19 18:57:49'),
-(5, 3, 2, 4, 15000, 60000, '2018-06-19 18:59:14'),
-(6, 4, 2, 2, 15000, 30000, '2018-06-20 07:23:40');
+(1, 1, 2, 2, 15000, 30000, '2018-06-23 13:29:44'),
+(2, 1, 3, 2, 15000, 30000, '2018-06-23 13:30:02'),
+(3, 2, 1, 1, 100000, 100000, '2018-06-23 13:44:17'),
+(4, 3, 1, 1, 50000, 50000, '2018-06-23 13:48:08');
 
 -- --------------------------------------------------------
 
@@ -254,8 +254,10 @@ CREATE TABLE `t_order` (
   `ID_CUSTOMER` int(11) DEFAULT NULL,
   `NO_ORDER` char(4) NOT NULL,
   `TGL_ORDER` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `STATUS_BAYAR` enum('Lunas','Belum Bayar','Sudah Konfirmasi') NOT NULL DEFAULT 'Belum Bayar',
-  `KETERANGAN` mediumtext,
+  `STATUS_BAYAR` enum('Lunas','Belum Bayar','Sudah Konfirmasi Bayar') NOT NULL DEFAULT 'Belum Bayar',
+  `TGL_KONFIRMASI_BAYAR` datetime DEFAULT NULL,
+  `FILE_KONFIRMASI_BAYAR` varchar(50) NOT NULL,
+  `KETERANGAN_KONFIRMASI_BAYAR` mediumtext,
   `ID_KARTU` int(11) DEFAULT NULL,
   `TGL_KARTU_KEMBALI` datetime DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -264,11 +266,10 @@ CREATE TABLE `t_order` (
 -- Dumping data untuk tabel `t_order`
 --
 
-INSERT INTO `t_order` (`ID_T_ORDER`, `ID_CUSTOMER`, `NO_ORDER`, `TGL_ORDER`, `STATUS_BAYAR`, `KETERANGAN`, `ID_KARTU`, `TGL_KARTU_KEMBALI`) VALUES
-(1, 1, '1214', '2018-06-19 17:44:46', 'Lunas', NULL, 1, NULL),
-(3, 1, '9543', '2018-06-19 18:59:14', 'Belum Bayar', NULL, 4, NULL),
-(2, 1, '6771', '2018-06-19 18:57:49', 'Belum Bayar', NULL, 3, NULL),
-(4, 1, '4983', '2018-06-20 07:23:40', 'Belum Bayar', NULL, 2, NULL);
+INSERT INTO `t_order` (`ID_T_ORDER`, `ID_CUSTOMER`, `NO_ORDER`, `TGL_ORDER`, `STATUS_BAYAR`, `TGL_KONFIRMASI_BAYAR`, `FILE_KONFIRMASI_BAYAR`, `KETERANGAN_KONFIRMASI_BAYAR`, `ID_KARTU`, `TGL_KARTU_KEMBALI`) VALUES
+(1, 3, '1928', '2018-06-23 13:29:44', 'Lunas', '2018-06-23 00:00:00', '', 'Telah ditransfer uang sebesar <b>Rp 60.000,00</b> dari Bank <b>BCA</b> dengan Rekening <b>5120424299</b> ke <b>BCA (No. Rek: 731 025 2527)</b> pada Tanggal <b>2018-06-23</b>', 2, NULL),
+(2, 1, '8379', '2018-06-23 13:44:17', 'Lunas', NULL, '', NULL, 1, NULL),
+(3, 1, '1259', '2018-06-23 13:48:08', 'Lunas', NULL, '', NULL, 3, NULL);
 
 -- --------------------------------------------------------
 
@@ -290,10 +291,15 @@ CREATE TABLE `t_pakai_kartu` (
 --
 
 INSERT INTO `t_pakai_kartu` (`ID_PAKAI_KARTU`, `ID_BARANG`, `ID_T_ORDER`, `ID_DETAIL_ORDER`, `TGL_PAKAI`, `HARGA`) VALUES
-(1, 3, 1, 3, '2018-06-20 18:48:07', 15000),
-(2, 3, 1, 3, '2018-06-20 18:48:09', 15000),
-(12, 3, 1, 1, '2018-06-21 03:16:57', 15000),
-(14, 3, 1, 3, '2018-06-21 03:19:24', 15000);
+(1, 2, 1, 1, '2018-06-23 13:42:23', 15000),
+(2, 2, 1, 1, '2018-06-23 13:42:30', 15000),
+(3, 3, 1, 2, '2018-06-23 13:42:50', 15000),
+(4, 3, 1, 2, '2018-06-23 13:42:51', 15000),
+(5, 2, 2, 3, '2018-06-23 13:45:14', 15000),
+(6, 2, 2, 3, '2018-06-23 13:46:10', 15000),
+(7, 4, 2, 3, '2018-06-23 13:46:50', 25000),
+(8, 4, 2, 3, '2018-06-23 13:46:56', 25000),
+(9, 3, 2, 3, '2018-06-23 13:47:14', 15000);
 
 --
 -- Indexes for dumped tables
@@ -381,13 +387,13 @@ ALTER TABLE `m_menu`
 -- AUTO_INCREMENT for table `t_detail_order`
 --
 ALTER TABLE `t_detail_order`
-  MODIFY `ID_DETAIL_ORDER` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ID_DETAIL_ORDER` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `t_pakai_kartu`
 --
 ALTER TABLE `t_pakai_kartu`
-  MODIFY `ID_PAKAI_KARTU` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `ID_PAKAI_KARTU` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
