@@ -73,7 +73,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo  $this->session->userdata('nama_customer'); ?> <span class="caret"></span></a>
 										<ul class="dropdown-menu">
 											<li><a href="<?=base_url();?>front/tiket">Pembelian Tiket Saya</a></li>
-											<li><a href="<?=base_url();?>front/password">Ganti Password</a></li>
+											<!--<li><a href="<?=base_url();?>front/password">Ganti Password</a></li>-->
 											<li><a href="<?=base_url();?>front/logout">LogOut</a></li>
 										</ul>
 									</li>

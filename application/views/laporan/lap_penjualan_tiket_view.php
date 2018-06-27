@@ -34,8 +34,8 @@
 					?>
 					<hr>
 					<ul class="nav nav-tabs">
-						  <li class="active"><a href="#">Uang</a></li>
-						  <li><a href="<?=base_url();?>lap_penjualan/tiket?tgl=<?php echo $this->input->get('tgl');?>">Jenis Tiket</a></li>
+						  <li class=""><a href="<?=base_url();?>lap_penjualan/?tgl=<?php echo $this->input->get('tgl');?>">Uang</a></li>
+						  <li class="active"><a href="#">Jenis Tiket</a></li>
 					</ul>
 					<br>
 					<?php

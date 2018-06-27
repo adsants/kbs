@@ -13,7 +13,7 @@
 					<form class="form-horizontal" id="" method="get">					
 						
 						<div class="form-group">
-							<label class="control-label col-sm-2" for="email">Tanggal :</label>
+							<label class="control-label col-sm-2" for="email">Bulan :</label>
 							<div class="col-sm-2">
 								<input type="input" class="form-control "  id="datepicker"  data-date-format='yyyy-mm-dd' required name="tgl" value="<?=$this->input->get('tgl');?>">								
 							</div>
@@ -34,8 +34,8 @@
 					?>
 					<hr>
 					<ul class="nav nav-tabs">
-						  <li class="active"><a href="#">Uang</a></li>
-						  <li><a href="<?=base_url();?>lap_penjualan/tiket?tgl=<?php echo $this->input->get('tgl');?>">Jenis Tiket</a></li>
+						  <li class=""><a href="<?=base_url();?>lap_bulan/?tgl=<?php echo $this->input->get('tgl');?>">Uang</a></li>
+						  <li class="active"><a href="#">Jenis Tiket</a></li>
 					</ul>
 					<br>
 					<?php

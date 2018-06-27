@@ -1,4 +1,8 @@
+<?php
 
+
+
+?>
 <!-- Content Header (Page header) -->
 <section class="content">
 	<div class="row">
@@ -13,11 +17,10 @@
 					<form class="form-horizontal" id="" method="get">					
 						
 						<div class="form-group">
-							<label class="control-label col-sm-2" for="email">Tanggal :</label>
+							<label class="control-label col-sm-2" for="email">Bulan :</label>
 							<div class="col-sm-2">
-								<input type="input" class="form-control "  id="datepicker"  data-date-format='yyyy-mm-dd' required name="tgl" value="<?=$this->input->get('tgl');?>">								
-							</div>
-												
+								<input type="input" class="form-control "  id="datepickerBulan"  data-date-format='mm-yyyy' required name="tgl" value="<?=$this->input->get('tgl');?>">								
+							</div>				
 						</div>	
 						<div class="form-group">        
 							<div class="col-sm-offset-2 col-sm-10">
@@ -35,7 +38,7 @@
 					<hr>
 					<ul class="nav nav-tabs">
 						  <li class="active"><a href="#">Uang</a></li>
-						  <li><a href="<?=base_url();?>lap_penjualan/tiket?tgl=<?php echo $this->input->get('tgl');?>">Jenis Tiket</a></li>
+						  <li><a href="<?=base_url();?>lap_bulan/tiket?tgl=<?php echo $this->input->get('tgl');?>">Jenis Tiket</a></li>
 					</ul>
 					<br>
 					<?php

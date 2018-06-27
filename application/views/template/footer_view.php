@@ -4,7 +4,7 @@
 			<div class="pull-right hidden-xs">
 			 <!-- <b>Version</b> 2.3.8 -->
 			</div>
-			<strong>Copyright &copy; 2017 <!--<a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+			<strong>Copyright &copy; 2018 <!--<a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
 			reserved.-->
 		  </footer>
 
@@ -167,6 +167,13 @@
 			$('#datepicker2').datepicker({
 				autoclose: true,
 				
+			});
+			
+			$("#datepickerBulan").datepicker( {
+				autoclose: true,
+				format: "yyyy-mm",
+				startView: "months", 
+				minViewMode: "months"
 			});
 			
 			$('#modal_posisi').modal('show');
