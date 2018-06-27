@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 25 Jun 2018 pada 18.43
+-- Generation Time: 27 Jun 2018 pada 11.52
 -- Versi Server: 10.1.29-MariaDB
 -- PHP Version: 7.2.0
 
@@ -92,7 +92,8 @@ INSERT INTO `m_kartu` (`ID_KARTU`, `NOMOR_RFID`, `TGL_INPUT`) VALUES
 (2, '0013106070', '2018-06-19 19:04:09'),
 (3, '0013088972', '2018-06-19 19:04:16'),
 (4, '12', '2018-06-25 12:56:12'),
-(5, '0004159312', '2018-06-25 16:32:59');
+(5, '0004159312', '2018-06-25 16:32:59'),
+(6, '0013070897', '2018-06-27 06:59:02');
 
 -- --------------------------------------------------------
 
@@ -173,7 +174,7 @@ INSERT INTO `m_menu` (`ID_MENU`, `ID_PARENT`, `NAMA_MENU`, `JUDUL_MENU`, `LINK_M
 (3, 1, 'Pengguna Aplikasi ', 'Menu Pengguna Aplikasi  adalah Data User/Pengguna dari Aplikasi.', 'user', '', 'Y', 2, 2, 'Y', 'Y', 'Y'),
 (4, 2, 'Karyawan', 'Menu Karyawan adalah Data Keseluruhan Pegawai.', 'karyawan', '', 'Y', 2, 2, 'Y', 'Y', 'Y'),
 (5, 1, 'Kategori Pengguna Aplikasi', 'Menu Kategori Pengguna Aplikasi adalah Halaman yang berisi Data Kategori Pengguna Aplikasi. Dalam menu ini akan diatur untuk hak Akses dari Kategori Pengguna.', 'kategori_user', '', 'Y', 2, 1, 'Y', 'Y', 'Y'),
-(6, 2, 'Barang', 'Barang ', 'barang', NULL, 'Y', 2, 3, 'Y', 'Y', 'Y'),
+(6, 2, 'Jenis Tiket', 'Jenis Tiket', 'barang', NULL, 'Y', 2, 3, 'Y', 'Y', 'Y'),
 (12, 0, 'Dashboard', 'Halaman untuk menampilkan Daftar Antrian Order.', 'dashboard', 'dashboard', 'Y', 1, 1, 'N', 'N', 'N'),
 (7, 2, 'Kartu RFID', 'Kartu RFID', 'kartu', NULL, 'Y', 2, 3, 'Y', 'Y', 'Y'),
 (20, 0, 'Laporan', 'Laporan', NULL, 'edit', 'Y', 1, 11, 'N', 'N', 'N'),
@@ -183,7 +184,8 @@ INSERT INTO `m_menu` (`ID_MENU`, `ID_PARENT`, `NAMA_MENU`, `JUDUL_MENU`, `LINK_M
 (17, 2, 'Customer', 'Customer', 'customer', NULL, 'Y', 2, 1, 'N', 'Y', 'N'),
 (18, 0, 'Tiket Masuk', 'Tiket Masuk', 'tiket_masuk', 'ticket', 'Y', 1, 9, 'Y', 'N', 'N'),
 (19, 0, 'Loket Pengembalian Kartu', 'Loket Pengembalian Kartu', 'kembali_kartu', 'download', 'Y', 1, 9, 'N', 'N', 'N'),
-(21, 20, 'Laporan Penjualan', 'Laporan Penjualan', 'lap_penjualan', NULL, 'Y', 2, 1, 'N', 'N', 'N');
+(21, 20, 'Penjualan per Hari', 'Penjualan per Hari', 'lap_penjualan', NULL, 'Y', 2, 1, 'N', 'N', 'N'),
+(22, 20, 'Rekap Penjualan per Bulan', 'Rekap Penjualan per Bulan', 'lap_bulan', NULL, 'Y', 2, 2, 'N', 'N', 'N');
 
 -- --------------------------------------------------------
 
@@ -215,7 +217,12 @@ INSERT INTO `t_detail_order` (`ID_DETAIL_ORDER`, `ID_T_ORDER`, `ID_BARANG`, `QTY
 (7, 5, 2, 3, 15000, 45000, '2018-06-25 14:46:02'),
 (8, 5, 1, 1, 65000, 65000, '2018-06-25 14:47:08'),
 (9, 6, 2, 2, 15000, 30000, '2018-06-25 16:31:32'),
-(10, 6, 1, 1, 100000, 100000, '2018-06-25 16:31:41');
+(10, 6, 1, 1, 100000, 100000, '2018-06-25 16:31:41'),
+(11, 7, 2, 12, 15000, 180000, '2018-06-27 06:58:18'),
+(12, 7, 1, 1, 50000, 50000, '2018-06-27 06:58:28'),
+(13, 8, 1, 1, 50000, 50000, '2018-06-27 07:22:02'),
+(14, 9, 1, 1, 50000, 50000, '2018-06-27 07:25:30'),
+(15, 9, 2, 1, 15000, 15000, '2018-06-27 07:31:18');
 
 -- --------------------------------------------------------
 
@@ -237,23 +244,24 @@ CREATE TABLE `t_hak_akses` (
 
 INSERT INTO `t_hak_akses` (`ID_MENU`, `ID_KATEGORI_USER`, `ADD_BUTTON`, `EDIT_BUTTON`, `DELETE_BUTTON`) VALUES
 (21, 1, '', '', ''),
+(20, 1, '', '', ''),
 (19, 1, '', '', ''),
 (18, 1, 'Y', '', ''),
 (16, 1, '', '', ''),
 (15, 1, '', '', ''),
 (14, 1, 'Y', '', ''),
-(7, 1, 'Y', 'Y', 'Y'),
 (12, 2, '', '', ''),
+(7, 1, 'Y', 'Y', 'Y'),
 (6, 1, 'Y', 'Y', 'Y'),
 (4, 1, 'Y', 'Y', 'Y'),
 (17, 1, '', 'Y', ''),
 (2, 1, '', '', ''),
 (3, 1, 'Y', 'Y', 'Y'),
 (5, 1, 'Y', 'Y', 'Y'),
-(1, 1, '', '', ''),
 (18, 2, '', '', ''),
+(1, 1, '', '', ''),
 (12, 1, '', '', ''),
-(20, 1, '', '', '');
+(22, 1, '', '', '');
 
 -- --------------------------------------------------------
 
@@ -272,7 +280,7 @@ CREATE TABLE `t_order` (
   `KETERANGAN_KONFIRMASI_BAYAR` mediumtext,
   `ID_KARTU` int(11) DEFAULT NULL,
   `TGL_KARTU_KEMBALI` datetime DEFAULT NULL,
-  `UANG_KEMBALI` int(11) DEFAULT NULL
+  `UANG_KEMBALI` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -280,12 +288,15 @@ CREATE TABLE `t_order` (
 --
 
 INSERT INTO `t_order` (`ID_T_ORDER`, `ID_CUSTOMER`, `NO_ORDER`, `TGL_ORDER`, `STATUS_BAYAR`, `TGL_KONFIRMASI_BAYAR`, `FILE_KONFIRMASI_BAYAR`, `KETERANGAN_KONFIRMASI_BAYAR`, `ID_KARTU`, `TGL_KARTU_KEMBALI`, `UANG_KEMBALI`) VALUES
-(1, 3, '1928', '2018-06-23 13:29:44', 'Lunas', '2018-06-23 00:00:00', '', 'Telah ditransfer uang sebesar <b>Rp 60.000,00</b> dari Bank <b>BCA</b> dengan Rekening <b>5120424299</b> ke <b>BCA (No. Rek: 731 025 2527)</b> pada Tanggal <b>2018-06-23</b>', 2, NULL, NULL),
-(2, 1, '8379', '2018-06-23 13:44:17', 'Lunas', NULL, '', NULL, 1, NULL, NULL),
-(3, 1, '1259', '2018-06-23 13:48:08', 'Lunas', NULL, '', NULL, 3, NULL, NULL),
-(4, 1, '4961', '2018-06-25 12:56:26', 'Lunas', NULL, '', NULL, 4, '2018-06-25 21:38:19', NULL),
-(5, 1, '5742', '2018-06-25 14:46:02', 'Lunas', NULL, '', NULL, 4, NULL, NULL),
-(6, 2, '0463', '2018-06-25 16:31:32', 'Lunas', '2018-06-23 00:00:00', '', 'Telah ditransfer uang sebesar <b>Rp 130.000,00</b> dari Bank <b>BCA</b> dengan Rekening <b>4234244</b> ke <b>BCA (No. Rek: 731 025 2527)</b> pada Tanggal <b>2018-06-26</b>', 5, NULL, NULL);
+(1, 3, '1928', '2018-06-23 13:29:44', 'Lunas', '2018-06-23 00:00:00', '', 'Telah ditransfer uang sebesar <b>Rp 60.000,00</b> dari Bank <b>BCA</b> dengan Rekening <b>5120424299</b> ke <b>BCA (No. Rek: 731 025 2527)</b> pada Tanggal <b>2018-06-23</b>', 2, NULL, 0),
+(2, 1, '8379', '2018-06-23 13:44:17', 'Lunas', NULL, '', NULL, 1, NULL, 0),
+(3, 1, '1259', '2018-06-23 13:48:08', 'Lunas', NULL, '', NULL, 3, NULL, 0),
+(4, 1, '4961', '2018-06-25 12:56:26', 'Lunas', NULL, '', NULL, 4, '2018-06-25 21:38:19', 0),
+(5, 1, '5742', '2018-06-25 14:46:02', 'Lunas', NULL, '', NULL, 4, NULL, 0),
+(6, 2, '0463', '2018-06-25 16:31:32', 'Lunas', '2018-06-23 00:00:00', '', 'Telah ditransfer uang sebesar <b>Rp 130.000,00</b> dari Bank <b>BCA</b> dengan Rekening <b>4234244</b> ke <b>BCA (No. Rek: 731 025 2527)</b> pada Tanggal <b>2018-06-26</b>', 5, '2018-06-27 14:15:09', 0),
+(7, 1, '4648', '2018-06-27 06:58:18', 'Lunas', NULL, '', NULL, 6, '2018-06-27 14:01:17', 0),
+(8, 1, '1132', '2018-06-27 07:22:02', 'Lunas', NULL, '', NULL, 5, '2018-06-27 14:30:38', 20000),
+(9, 1, '0519', '2018-06-27 07:31:18', 'Lunas', NULL, '', NULL, 6, '2018-06-27 14:33:40', 5000);
 
 -- --------------------------------------------------------
 
@@ -323,7 +334,33 @@ INSERT INTO `t_pakai_kartu` (`ID_PAKAI_KARTU`, `ID_BARANG`, `ID_T_ORDER`, `ID_DE
 (21, 4, 6, 10, '2018-06-25 16:41:45', 25000),
 (22, 4, 6, 10, '2018-06-25 16:41:52', 25000),
 (23, 3, 6, 10, '2018-06-25 16:41:54', 15000),
-(24, 3, 6, 10, '2018-06-25 16:41:57', 15000);
+(24, 3, 6, 10, '2018-06-25 16:41:57', 15000),
+(25, 3, 5, 8, '2018-06-27 06:26:12', 15000),
+(26, 2, 5, 7, '2018-06-27 06:26:46', 15000),
+(27, 2, 5, 7, '2018-06-27 06:26:53', 15000),
+(28, 2, 5, 7, '2018-06-27 06:39:45', 15000),
+(29, 2, 5, 8, '2018-06-27 06:44:34', 15000),
+(30, 2, 5, 8, '2018-06-27 06:45:02', 15000),
+(31, 2, 5, 8, '2018-06-27 06:45:22', 15000),
+(32, 2, 7, 11, '2018-06-27 06:59:20', 15000),
+(33, 2, 7, 11, '2018-06-27 06:59:32', 15000),
+(34, 2, 7, 11, '2018-06-27 06:59:37', 15000),
+(35, 4, 7, 12, '2018-06-27 06:59:43', 25000),
+(36, 3, 7, 12, '2018-06-27 06:59:52', 15000),
+(37, 2, 7, 11, '2018-06-27 07:00:38', 15000),
+(38, 2, 7, 11, '2018-06-27 07:00:44', 15000),
+(39, 2, 7, 11, '2018-06-27 07:00:45', 15000),
+(40, 2, 7, 11, '2018-06-27 07:00:46', 15000),
+(41, 2, 7, 11, '2018-06-27 07:00:47', 15000),
+(42, 2, 7, 11, '2018-06-27 07:00:47', 15000),
+(43, 2, 7, 11, '2018-06-27 07:00:48', 15000),
+(44, 2, 7, 11, '2018-06-27 07:00:50', 15000),
+(45, 2, 7, 11, '2018-06-27 07:00:51', 15000),
+(46, 2, 8, 13, '2018-06-27 07:22:23', 15000),
+(47, 2, 9, 14, '2018-06-27 07:25:54', 15000),
+(48, 2, 9, 14, '2018-06-27 07:26:35', 15000),
+(49, 2, 9, 15, '2018-06-27 07:31:40', 15000),
+(50, 3, 9, 14, '2018-06-27 07:32:37', 15000);
 
 --
 -- Indexes for dumped tables
@@ -399,25 +436,25 @@ ALTER TABLE `t_pakai_kartu`
 -- AUTO_INCREMENT for table `m_kartu`
 --
 ALTER TABLE `m_kartu`
-  MODIFY `ID_KARTU` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ID_KARTU` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `m_menu`
 --
 ALTER TABLE `m_menu`
-  MODIFY `ID_MENU` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `ID_MENU` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `t_detail_order`
 --
 ALTER TABLE `t_detail_order`
-  MODIFY `ID_DETAIL_ORDER` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `ID_DETAIL_ORDER` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `t_pakai_kartu`
 --
 ALTER TABLE `t_pakai_kartu`
-  MODIFY `ID_PAKAI_KARTU` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `ID_PAKAI_KARTU` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
