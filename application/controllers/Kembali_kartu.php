@@ -128,12 +128,12 @@ class Kembali_kartu extends CI_Controller {
 				";
 			}	
 			else{
-				echo 'Kartu Tidak Aktif !';
+				echo '<div class="alert alert-warning" role="alert">Kartu sudah dikembalikan !</div>';
 			}
 		}
 		else{
 			
-			echo 'Kartu Tidak Aktif !';
+			echo '<div class="alert alert-warning" role="alert">Kartu Tidak Aktif !</div>';
 		}
 		
 	}
@@ -180,12 +180,12 @@ class Kembali_kartu extends CI_Controller {
 				$status = array('status' => true , 'uang_kembali' => $jumlahKembali);	
 			}		
 			else{
-				$status = array('status' => false , 'pesan' => 'Kartu Tidak Aktif !');	
+				$status = array('status' => false , 'pesan' => '<div class="alert alert-warning" role="alert">Kartu sudah dikembalikan !</div>');	
 			}
 		}
 		else{
 			
-			$status = array('status' => false , 'pesan' => 'Kartu Tidak Aktif !');	
+			$status = array('status' => false , 'pesan' => '<div class="alert alert-warning" role="alert">Kartu Tidak Aktif !</div>');	
 			
 		}
 		
@@ -202,20 +202,25 @@ class Kembali_kartu extends CI_Controller {
 			$dataCekOrder 	=	$this->order_model->getData($whereOrder);
 			
 			if($dataCekOrder){
-				$this->db->query("update t_order set tgl_kartu_kembali=now() where id_t_order = '".$dataCekOrder
-				->ID_T_ORDER."'");
+				$this->db->query("
+				update 
+					t_order set tgl_kartu_kembali=now(),
+					UANG_KEMBALI = '".$this->input->post('UANG_KEMBALI')."' 
+				where 
+					id_t_order = '".$dataCekOrder->ID_T_ORDER."'
+				");
 				
 				//echo $this->db->last_query();
 				
 				$status = array('status' => true );
 			}
 			else{
-				$status = array('status' => false , 'pesan' => 'Kartu sudah dikembalikan !' );
+				$status = array('status' => false , 'pesan' => '<div class="alert alert-warning" role="alert">Kartu sudah dikembalikan !</div>' );
 			}
 		}
 		else{
 			
-			$status = array('status' => false , 'pesan' => 'Kartu Tidak Aktif !' );
+			$status = array('status' => false , 'pesan' => '<div class="alert alert-warning" role="alert">Kartu Tidak Aktif !</div>' );
 		}
 		
 		echo(json_encode($status));

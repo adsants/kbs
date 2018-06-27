@@ -100,23 +100,29 @@ class Tiket_masuk extends CI_Controller {
 					)
 					");
 					
-					echo '<div class="alert alert-success" role="alert"><h4>Sukses menggunakan Saldo Uang !</div>';
+					
+					$status = array('status' => true , 'pesan' => 'Sukses menggunakan Saldo Uang !');
 				}
 				else{
-					echo '<div class="alert alert-danger" role="alert"><h4>Saldo tidak mencukupi !</div>';
+					$status = array('status' => false , 'pesan' => 'Saldo tidak mencukupi !');
 				}
 			}
 			else{
-				echo '<div class="alert alert-danger" role="alert"><h4>Saldo tidak mencukupi !</div>';
+				$status = array('status' => false , 'pesan' => 'Saldo tidak mencukupi !');
 			}
+			
+		
+		echo(json_encode($status));
+		
 	}
 	
 	public function add_data(){
 		$this->form_validation->set_rules('ID_BARANG', '', 'trim|required');		
 		$this->form_validation->set_rules('NOMOR_RFID', '', 'trim|required');		
-		
+		//$status =  "";
 		if ($this->form_validation->run() == FALSE)	{
-			echo '<div class="alert alert-warning" role="alert">Gagal menyimpan Data, pastikan telah mengisi semua inputan yang diwajibkan untuk diisi.</div>';
+			$status = array('status' => false , 'pesan' => 'Gagal menyimpan Data, pastikan telah mengisi semua inputan yang diwajibkan untuk diisi.');
+			echo(json_encode($status));
 		}
 		else{					
 			$where = array('NOMOR_RFID' => $this->input->post('NOMOR_RFID'));
@@ -179,7 +185,9 @@ class Tiket_masuk extends CI_Controller {
 							)
 							");
 							
-							echo '<div class="alert alert-success" role="alert"><h4>Sukses menggunakan Kuota Tiket !</div>';
+							
+							$status = array('status' => true , 'pesan' => 'Sukses menggunakan Kuota Tiket !');
+							echo(json_encode($status));
 						}
 						else{
 							
@@ -195,14 +203,17 @@ class Tiket_masuk extends CI_Controller {
 				
 				}
 				else{
-					echo '<div class="alert alert-danger" role="alert"><h4>Kartu tidak Aktif !</div>';
+					$status = array('status' => false , 'pesan' => 'Kartu tidak Aktif !');
+					echo(json_encode($status));
 				}
 			}
 			else{
-				echo '<div class="alert alert-danger" role="alert"><h4>Kartu tidak Terdaftar !</div>';
-			}
-			
+				$status = array('status' => false , 'pesan' => 'Kartu tidak Terdaftar !');
+				
+				echo(json_encode($status));
+			}			
 		}
+		
 		
 	}
 	

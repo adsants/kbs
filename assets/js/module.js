@@ -264,21 +264,50 @@ $('#form_tiket').validate({
 		$.ajax({
 			url: base_url+''+uri_1+'/'+uri_2+'_data',
 			type:'POST',
-			dataType:'html',
+			dataType:'json',
 			data: $('#form_tiket').serialize(),
 			beforeSend: function(){	
 				$('#loading').show();
 				$('#pesan_error').hide();
 			},
 			success: function(data){
+				if( data.status ){	
+					
+					$('#pesanTiketMasuk').html('<div class="alert alert-success" role="alert">' +data.pesan+ '</div>');	
+				}
+				else{
+					
+					$('#pesanTiketMasuk').html('<div class="alert alert-warning" role="alert">' +data.pesan+ '</div>');	
+					//$('#pesanTiketMasuk').html(data.pesan);	
+				}	
+			
+				if(uri_1 == 'tiket_masuk') {
+			
+					$.ajax({
+						url: base_url+'kembali_kartu/add_data',
+						type:'POST',
+						dataType:'html',
+						data: $('#form_tiket').serialize(),
+						beforeSend: function(){	
+							$('#loading').show();
+							$('#pesan_error').hide();
+						},
+						success: function(data){
+							$('#loading').hide();
 							
-				$('#loading').hide(); 
-				$('#pesanTiketMasuk').show(); 
-				$('#pesanTiketMasuk').html(data);	
+									
+							$('#pesanTiketMasuk').append(data);			
+						}
+					})
+				}		
+				
+				$('#loading').hide();
 				
 				$('#NOMOR_RFID').val('');					 
-				$('#NOMOR_RFID').focus();					 
-				
+				$('#NOMOR_RFID').focus();	
+			},
+			error : function(data) {
+				alert("error .. return bukan Json");
 			}
 		})
 	}
@@ -414,7 +443,7 @@ function terima_kartu(){
 			url: base_url+'kembali_kartu/kartu_kembali',
 			type:'POST',
 			dataType:'json',
-			data: {NOMOR_RFID : $('#NOMOR_RFID').val() },
+			data: {NOMOR_RFID : $('#NOMOR_RFID').val() , UANG_KEMBALI : $('#UANG_KEMBALI').val() },
 			beforeSend: function(){	
 				$('#loading').show();
 				$('#pesan_error').hide();
