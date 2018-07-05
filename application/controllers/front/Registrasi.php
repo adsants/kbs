@@ -58,5 +58,33 @@ class Registrasi extends CI_Controller {
 	}
 	
 	
+	public function send_email(){
+		
+		$config = Array(
+        'protocol' => 'smtp',
+        'smtp_host' => 'smtp.gmail.com',
+        'smtp_port' => 465, //465,
+        'smtp_user' => 'mail.adisantoso@gmail.com',
+        'smtp_pass' => 'anakganteng',
+        'smtp_crypto' => 'tls',
+        'smtp_timeout' => '20',
+        'mailtype'  => 'html', 
+        'charset'   => 'iso-8859-1'
+    );
+    $config['newline'] = "\r\n";
+    $config['crlf'] = "\r\n";
+    $this->load->library('email', $config);
+    $this->email->from('myself@gmx.com', 'Admin');
+    $this->email->to('anisamfth@gmail.com');
+    $this->email->subject('AKu Cinta Kamu');
+    $this->email->message('AKu Cinta Kamu');
+
+    //$this->email->send();
+    if ( ! $this->email->send()) {
+        return false;
+    }
+    return true;
+	}
+	
 	
 }
