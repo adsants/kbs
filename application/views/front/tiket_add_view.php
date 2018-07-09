@@ -227,9 +227,9 @@
 				
 				<br>
 				<br>
-				<a href="<?=base_url();?>front/tiket">
-					<span class="btn btn-success"> Oke</span>
-				</a>
+					
+					<span class="btn btn-success" id="tunggu" onclick="send_email_bayar(<?php echo $this->input->get('id_order'); ?>)"> Oke</span>
+				
 			</div>
 		</div>
 		</div>

@@ -63,6 +63,8 @@ class Order_model extends CI_Model {
 		if($like){
 			$this->db->like($like);
 		}
+		
+		$this->db->join('m_kartu', 'm_kartu.id_kartu = t_order.id_kartu' , 'left');	
 		return $this->db->get("t_order",$limit,$fromLimit)->num_rows();
 	}
 	
@@ -71,7 +73,11 @@ class Order_model extends CI_Model {
 		$this->db->where($where);		
 		return $this->db->get("t_order")->row();
 	}
-	
+	function getDataDetail($where){
+		$this->db->select("*");		
+		$this->db->where($where);		
+		return $this->db->get("t_detail_order")->row();
+	}
 	
 	function getPrimaryKeyMax(){
 		$query = $this->db->query('select max(id_t_order) as MAX from t_order') ;
@@ -87,6 +93,10 @@ class Order_model extends CI_Model {
 	function update($where,$data){		
 		$this->db->where($where);		
 		$this->db->update('t_order', $data);
+	}
+	function updateDetail($where,$data){		
+		$this->db->where($where);		
+		$this->db->update('t_detail_order', $data);
 	}
 	function delete($where){
 		$this->db->where($where);

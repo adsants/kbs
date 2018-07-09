@@ -177,7 +177,7 @@ class Kembali_kartu extends CI_Controller {
 					$jumlahKembali	=	$totalUang - $totalPakai;
 					
 					
-				$status = array('status' => true , 'uang_kembali' => $jumlahKembali);	
+				$status = array('status' => true , 'uang_kembali' => $jumlahKembali,'id_order' => $dataCekOrder->ID_T_ORDER );	
 			}		
 			else{
 				$status = array('status' => false , 'pesan' => '<div class="alert alert-warning" role="alert">Kartu sudah dikembalikan !</div>');	

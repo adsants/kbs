@@ -31,7 +31,7 @@ class Trans_tiket extends CI_Controller {
 		$this->pagination->initialize($config);	
 		$this->showData = $this->order_model->showData("",$like,$order_by,$config['per_page'],$this->input->get('per_page'));
 		$this->pagination->initialize($config);
-		
+	//	echo $this->db->last_query();
 		$this->template_view->load_view('trans_tiket/trans_tiket_view');
 	}
 	public function add(){
@@ -83,31 +83,59 @@ class Trans_tiket extends CI_Controller {
 			
 			$totalHarga	=	$this->input->post('QTY_BARANG') * $dataBarang->HARGA ;
 			
-			if($this->input->post('ID_ORDER')!=''){		
-				
-				
+			if($this->input->post('ID_ORDER')!=''){	
 			
-				if($this->input->post('ID_BARANG') == 1){
-					$data = array(				
-						'ID_T_ORDER' 	=> $this->input->post('ID_ORDER')	,		
-						'ID_BARANG' 	=> $this->input->post('ID_BARANG')	,	
-						'QTY_BARANG' 	=> '1',
-						'HARGA' 		=> $this->input->post('QTY_BARANG'),
-						'TOTAL_HARGA' 	=> $this->input->post('QTY_BARANG')
+				$where = array('ID_T_ORDER' => $this->input->post('ID_ORDER'),'ID_BARANG' => $this->input->post('ID_BARANG'));
+				$this->oldData = $this->order_model->getDataDetail($where);
+				
+				if($this->oldData){
+					
+					
+					if($this->input->post('ID_BARANG') == '1'){
+						$qtyBarangBaru	=	'1';
+						$totalHargaBaru	=	$this->input->post('QTY_BARANG') + $this->oldData->TOTAL_HARGA;
+					}
+					else{
+						$qtyBarangBaru	=	$this->input->post('QTY_BARANG') + $this->oldData->QTY_BARANG;
+						$totalHargaBaru	=	$totalHarga + $this->oldData->TOTAL_HARGA;
+					}
+					
+					
+					$where = array('ID_T_ORDER' => $this->input->post('ID_ORDER'), 'ID_BARANG' => $this->input->post('ID_BARANG'));
+					
+					$data = array(					
+						'QTY_BARANG' 	=> $qtyBarangBaru,
+						'TOTAL_HARGA' 	=> $totalHargaBaru
 					);
+					$query = $this->order_model->updateDetail($where, $data);
+				//echo $this->db->last_query();
+					$status = array('status' => true , 'redirect_link' => base_url()."".$this->uri->segment(1)."/add?id_order=".$this->input->post('ID_ORDER'),'id_order' => $this->input->post('ID_ORDER'));
 				}
 				else{
-					$data = array(				
-						'ID_T_ORDER' => $this->input->post('ID_ORDER')	,		
-						'ID_BARANG' => $this->input->post('ID_BARANG')	,	
-						'QTY_BARANG' => $this->input->post('QTY_BARANG'),
-						'HARGA' => $dataBarang->HARGA,
-						'TOTAL_HARGA' => $totalHarga
-					);
+					if($this->input->post('ID_BARANG') == 1){
+						$data = array(				
+							'ID_T_ORDER' 	=> $this->input->post('ID_ORDER')	,		
+							'ID_BARANG' 	=> $this->input->post('ID_BARANG')	,	
+							'QTY_BARANG' 	=> '1',
+							'HARGA' 		=> $this->input->post('QTY_BARANG'),
+							'TOTAL_HARGA' 	=> $this->input->post('QTY_BARANG')
+						);
+					}
+					else{
+						$data = array(				
+							'ID_T_ORDER' => $this->input->post('ID_ORDER')	,		
+							'ID_BARANG' => $this->input->post('ID_BARANG')	,	
+							'QTY_BARANG' => $this->input->post('QTY_BARANG'),
+							'HARGA' => $dataBarang->HARGA,
+							'TOTAL_HARGA' => $totalHarga
+						);
+					}
+					
+					$query = $this->order_model->insertDetail($data);							
+					$status = array('status' => true , 'redirect_link' => base_url()."".$this->uri->segment(1)."/add?id_order=".$this->input->post('ID_ORDER'),'id_order' => $this->input->post('ID_ORDER'));
 				}
+			
 				
-				$query = $this->order_model->insertDetail($data);							
-				$status = array('status' => true , 'redirect_link' => base_url()."".$this->uri->segment(1)."/add?id_order=".$this->input->post('ID_ORDER'),'id_order' => $this->input->post('ID_ORDER'));
 			}
 			else{
 				

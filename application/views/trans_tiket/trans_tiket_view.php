@@ -23,6 +23,7 @@
 						<form method="get">
 						<div class="col-sm-4 col-md-offset-2">
 							<select class="form-control" name="field">
+								<option <?php if($this->input->get('field')=='NOMOR_RFID') echo "selected"; ?> value="NOMOR_RFID">Berdasarkan RFID</option>
 								<option <?php if($this->input->get('field')=='NO_ORDER') echo "selected"; ?> value="NO_ORDER">Berdasarkan No Order</option>
 								<option <?php if($this->input->get('field')=='NAMA_CUSTOMER') echo "selected"; ?> value="NAMA_CUSTOMER">Berdasarkan Nama Customer</option>
 							</select>

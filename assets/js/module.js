@@ -329,13 +329,34 @@ $('#form_konfirmasi').validate({
 			},
 			success: function(data){
 				if( data.status ){	
-					if(uri_2 == 'add'){
-						location.href=base_url+'trans_tiket';
-					}
-					else{
-						location.href=base_url+'trans_tiket';
-					}
-					
+				
+					$('#tunggu').html('Mohon tunggu ...');
+					$.ajax({
+						url: base_url+'konfirmasi/send_email',
+						type:'GET',
+						dataType:'json',
+						data: {'id_order' : $('#id_order').val() },
+						success: function(data){
+							if( data.status ){						
+								
+								if(uri_2 == 'add'){
+									location.href=base_url+'trans_tiket';
+								}
+								else{
+									location.href=base_url+'konfirmasi';
+								}
+							}
+							else{				
+								$('#loading').hide(); $('#pesan_error').show(); $('#pesan_error').html(data.pesan);					 
+							}
+						},
+						error : function(data) {
+							$('#pesan_error').html('maaf telah terjadi kesalahan dalam program, silahkan anda mengakses halaman lainnya.'); $('#pesan_error').show(); $('#loading').hide();
+							//$('#pesan_error').html( '<h3>Error Response : </h3><br>'+JSON.stringify( data ));
+						}
+					})
+				
+				
 				}
 				else{				
 					$('#loading').hide(); $('#pesan_error').show(); $('#pesan_error').html(data.pesan);					 
@@ -393,8 +414,11 @@ $('#form_kartu_kembali').validate({
 							
 							
 							if( data.status ){
+								$('#id_t_order').val(data.id_order);
+								
 								$('#UANG_KEMBALI').val(data.uang_kembali);
 								
+								$('#btnLinkTambahBeli').show();
 								$('#btnTerimaKartu').show();
 								$('#divUangKembali').html("<h3>" + toRp(data.uang_kembali) + "</h3>");
 							}
@@ -453,4 +477,8 @@ function terima_kartu(){
 				location.reload();
 			}
 		});
+}
+
+function link_tambah_beli(){
+	location.href= base_url + "trans_tiket/add?id_order="+$('#id_t_order').val();
 }

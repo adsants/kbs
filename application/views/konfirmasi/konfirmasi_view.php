@@ -123,7 +123,7 @@
 				</div>			
 				<div class="form-group">
 					<div class="col-sm-12">
-								<button type="submit"  class="btn btn-success">Klik disini jika Proses Transfer Benar</button>
+								<button type="submit"  class="btn btn-success" id="tunggu">Klik disini jika Proses Transfer Benar</button>
 							</div>
 						</div>							
 			</form>					

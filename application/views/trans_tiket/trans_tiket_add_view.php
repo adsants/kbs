@@ -14,7 +14,7 @@
 					<form class="form-horizontal" id="form_standar">
 					<?php
 					
-					if($this->statusBayar == 'Belum Bayar'){
+					//if($this->statusBayar == 'Belum Bayar'){
 					?>
 						<input type="hidden" value="1" class="form-control number" name="ID_CUSTOMER" id="ID_CUSTOMER" >
 						<input type="hidden" value="<?php echo $this->input->get('id_order');?>" class="form-control number" name="ID_ORDER" id="ID_ORDER" >
@@ -59,18 +59,19 @@
 						</div>
 					
 					<?php
-					}
-					else{
+					//}
+				//	else{
 					?>
-						<div class="form-group">        
+					<!--	<div class="form-group">        
 							<div class=" col-sm-10">
 								<a href="<?=base_url()."".$this->uri->segment(1);?>">
 									<span class="btn btn-warning"><i class="fa fa-remove"></i> Kembali</span>
 								</a>
 							</div>
 						</div>
+					-->
 					<?php
-					}
+					//}
 					?>
 					</form>
 					<form class="form-horizontal" >

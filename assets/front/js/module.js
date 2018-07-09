@@ -288,6 +288,28 @@ function show_modal_transfer(email){
 	})
 }
 
+function send_email_bayar(id_order){
+	$('#tunggu').html('Mohon tunggu ...');
+	$.ajax({
+		url: base_url+'front/tiket/send_email_bayar',
+		type:'GET',
+		dataType:'json',
+		data: {'id_order' : id_order},
+		success: function(data){
+			if( data.status ){						
+				location.href= base_url+'front/tiket';
+			}
+			else{				
+				$('#loading').hide(); $('#pesan_error').show(); $('#pesan_error').html(data.pesan);					 
+			}
+		},
+		error : function(data) {
+			$('#pesan_error').html('maaf telah terjadi kesalahan dalam program, silahkan anda mengakses halaman lainnya.'); $('#pesan_error').show(); $('#loading').hide();
+			//$('#pesan_error').html( '<h3>Error Response : </h3><br>'+JSON.stringify( data ));
+		}
+	})
+}
+
 
 function showModalKOnfirmasiBayar(id_order){
 	$('#modalKonfirmasiBayar').modal('show');

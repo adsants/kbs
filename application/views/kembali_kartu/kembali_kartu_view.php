@@ -10,6 +10,8 @@
 					<hr>			
 				</div>
 				<div class="box-body">
+					
+					<input id="id_t_order" type="hidden">
 					<form class="form-horizontal" id="form_kartu_kembali">					
 						
 						<div class="form-group">
@@ -19,9 +21,12 @@
 								<input type="hidden" name="UANG_KEMBALI" id="UANG_KEMBALI">
 							</div>
 							
-							<div class="col-sm-7">
+							<div class="col-sm-3">
 								<span class="btn btn-success" onclick="showModalTerimaKartu()" id="btnTerimaKartu" style="display:none"> Terima Kartu</span>
-							</div>						
+							</div>		
+							<div class="col-sm-4">
+								<span class="btn btn-warning" onclick="link_tambah_beli()" id="btnLinkTambahBeli" style="display:none"> Top Up Uang</span>
+							</div>	
 						</div>						
 						<div class="form-group">
 							<div class="col-sm-offset-2 col-sm-10">
