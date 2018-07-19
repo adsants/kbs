@@ -12,32 +12,16 @@
 				<div class="box-body">
 					<form class="form-horizontal" id="form_standar">
 						<div class="form-group">
-							<label class="control-label col-sm-2" for="email">Nama Barang :</label>
+							<label class="control-label col-sm-2" for="email">Kartu RFID :</label>
 							<div class="col-sm-6">
-								<input type="hidden" name="ID_BARANG" value="<?php echo $this->oldData->ID_BARANG; ?>">
-								<input type="input" class="form-control required" id="NAMA_BARANG" name="NAMA_BARANG" value="<?php echo $this->oldData->NAMA_BARANG; ?>">
+								<input type="hidden" name="ID_BARANG" value="<?php echo $this->oldData->ID_KARTU; ?>">
+								<input type="input" class="form-control required" id="NAMA_BARANG" name="NAMA_BARANG" value="<?php echo $this->oldData->NOMOR_RFID; ?>">
 							</div>
 						</div>
 					
 						
-						<!--
 						
-						<div class="form-group">
-							<div class="col-sm-offset-2 col-sm-10">
-								<img src="<?php echo base_url();?>assets/img/loading.gif" id="loading" style="display:none">
-								<p id="pesan_error" style="display:none" class="text-warning" style="display:none"></p>
-							</div>
-						</div>			
-						<div class="form-group">        
-							<div class="col-sm-offset-2 col-sm-10">
-								<button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan</button>
-								<a href="<?=base_url()."".$this->uri->segment(1);?>">
-									<span class="btn btn-warning"><i class="fa fa-remove"></i> Batal</span>
-								</a>
-							</div>
-						</div>
-						
-						-->
+							
 					</form>
 					
 				

@@ -12,16 +12,22 @@
 				<div class="box-body">
 					<form class="form-horizontal" id="form_standar">
 						<div class="form-group">
-							<label class="control-label col-sm-2" for="email">Nama Karyawan :</label>
+							<label class="control-label col-sm-2" for="email">Nama Customer :</label>
 							<div class="col-sm-6">
-								<input type="hidden" name="ID_KARYAWAN" value="<?php echo $this->oldData->ID_KARYAWAN; ?>">
-								<input type="input" class="form-control required" id="NAMA_KARYAWAN" name="NAMA_KARYAWAN" value="<?php echo $this->oldData->NAMA_KARYAWAN; ?>">
+								<input type="hidden" name="ID_KARYAWAN" value="<?php echo $this->oldData->ID_CUSTOMER; ?>">
+								<input type="input" class="form-control required" id="NAMA_KARYAWAN" name="NAMA_KARYAWAN" value="<?php echo $this->oldData->NAMA_CUSTOMER; ?>">
 							</div>
 						</div>
 						
 						<div class="form-group">
-							<label class="control-label col-sm-2" for="email">Tgl Lahir :</label>
-							<div class="col-sm-2">
+							<label class="control-label col-sm-2" for="email">No Telp :</label>
+							<div class="col-sm-3">
+								<input type="input" class="form-control required" name="TGL_LAHIR_KARYAWAN" id="datepicker"  data-date-format='dd-mm-yyyy' >
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-sm-2" for="email">eMail :</label>
+							<div class="col-sm-5">
 								<input type="input" class="form-control required" name="TGL_LAHIR_KARYAWAN" id="datepicker"  data-date-format='dd-mm-yyyy' >
 							</div>
 						</div>
@@ -45,25 +51,7 @@
 						
 						-->
 					</form>
-					
-					<form class="form-horizontal" id="form_upload">
-						<div class="form-group">
-							<label class="control-label col-sm-2" for="email">Foto Karyawan :</label>
-							<div class="col-sm-4">
-								
-								<div class="input-group">
-								<input class="form-control" name="userfile" type="file">
-									<span class="input-group-btn">
-									  <button type="submit" class="btn btn-success btn-flat">Upload</button>
-									</span>
-								</div>
-								<img id="foto_karyawan" style="display:none">				
-								<br>
-								<img src="<?php echo base_url();?>assets/img/loading.gif" id="loading_input_foto_karyawan" style="display:none">
-								<p id="pesan_error_input_foto_karyawan" style="display:none" class="text-warning" style="display:none"></p>
-							</div>
-						</div>
-					</form>
+		
 					
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">

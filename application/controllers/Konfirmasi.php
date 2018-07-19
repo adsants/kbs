@@ -16,7 +16,7 @@ class Konfirmasi extends CI_Controller {
 		$like 		= null;
 		$order_by 	= 't_order.ID_T_ORDER desc'; 
 		$urlSearch 	= null;
-		$where		= "t_order.id_customer != '1' and t_order.status_bayar='Sudah Konfirmasi Bayar'";
+		$where		= "t_order.id_customer != '' and t_order.status_bayar='Sudah Konfirmasi Bayar'";
 		if($this->input->get('field')){
 			$like = array($_GET['field'] => $_GET['keyword']);
 			$urlSearch = "?field=".$_GET['field']."&keyword=".$_GET['keyword'];

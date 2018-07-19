@@ -53,7 +53,7 @@ class Lap_bulan extends CI_Controller {
 						
 						
 						$queryJumlah =	$this->db->query("
-							select sum(TOTAL_HARGA) as TOTAL_HARGA 
+							select sum(TOTAL_HARGA) - (select sum(UANG_KEMBALI) from t_order where t_order.tgl_order like '".$date."%') as TOTAL_HARGA 
 							from 
 								t_detail_order 
 							where 
@@ -107,7 +107,8 @@ class Lap_bulan extends CI_Controller {
 					  <tr>
 						<th width='5%'>No.</th>
 						<th>Jenis Tiket</th>
-						<th>Jumlah Jual</th>
+						<th>Jumlah Tiket</th>
+						<th>Jumlah Uang</th>
 					  </tr>
 					</thead>
 					
@@ -137,12 +138,32 @@ class Lap_bulan extends CI_Controller {
 							
 							");
 						$dataJumlah	=	$queryJumlah->row();
+						//$this->tableLaporan .= $this->db->last_query();
 						
+						$queryJumlahUang =	$this->db->query("
+						select 
+							sum(HARGA) as TOTAL 
+						from 
+							t_pakai_kartu 
+						where 
+							id_t_order in (
+											select 
+												id_t_order 
+											from 
+												t_order 
+											where 
+												t_order.tgl_order like '".$this->input->get('tgl')."%'
+											)
+							and id_barang = '".$data->ID_BARANG."'
+							
+							");
+						$dataJumlahUang	=	$queryJumlahUang->row();
 						
 						$this->tableLaporan .= " <tr>
 						<td align=center>".$i.".</td>
 						<td>".$data->NAMA_BARANG."</td>
 						<td>".$dataJumlah->TOTAL."</td>
+						<td>".$this->rupiah->to_rupiah($dataJumlahUang->TOTAL)."</td>
 						
 						
 						</tr>";
